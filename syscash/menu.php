@@ -36,7 +36,7 @@ require_once("valida_acesso.php");
         <a class="nav_logo" title="Home" id="home_link"> <i class="fas fa-home nav_logo-icon"></i> <span class="nav_logo-name">Syscash</span>
         </a>
         <div class="nav_list">
-          <a href="#" class="nav_link" title="Categoria" id="home_link">
+          <a href="#" class="nav_link" title="Categoria" id="categoria_link">
             <i class="fas fa-tag nav_icon"></i> <span class="nav_name">Categoria</span>
           </a>
           <a href="#" class="nav_link" title="Contas a Receber" id="contareceber_link">
