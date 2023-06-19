@@ -3,6 +3,7 @@ require_once("valida_acesso.php");
 ?>
 <?php
 require_once("categoria_crud.php");
+require_once("favorecido_crud.php");
 
 //a listagem de categoria é geral poderia ser filtrado por status
 if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
@@ -79,7 +80,14 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                             </div>
                             <div class="col-md-6">
                                 <label for="favorecido" class="form-label">Favorecido</label>
-                                <input type="text" class="form-control" id="favorecido_contareceber" name="favorecido_contareceber" maxlength="100">
+                                <select name="favorecido" id="favorecido" class="form-select">
+                                    <?php
+                                    $favorecidos = listarFavorecido();
+                                    foreach ($favorecidos as $favorecido) {
+                                        echo "<option value='" . $favorecido["id"] . "'>" . $favorecido["nome"] . "</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="valor" class="form-label">Valor R$</label>
@@ -92,7 +100,8 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                                 <input type="date" class="form-control" id="datavencimento_contareceber" name="datavencimento_contareceber">
                             </div>
                             <div class="col-md-6">
-                                <label for="categoria_contareceber" class="form-label">Categoria</label><select name="categoria_id_contareceber" id="categoria_id_contareceber" class="form-select">
+                                <label for="categoria_contareceber" class="form-label">Categoria</label>
+                                <select name="categoria_id_contareceber" id="categoria_id_contareceber" class="form-select">
                                     <?php
                                     $categorias = listarCategoriaEntrada();
                                     foreach ($categorias as $categoria) {

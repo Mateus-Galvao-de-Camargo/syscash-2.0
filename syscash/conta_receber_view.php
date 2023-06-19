@@ -97,7 +97,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                             <dl>
                                 <dt>Favorecido</dt>
                                 <dd>
-                                    <?= isset($resultado["favorecido"]) ? $resultado["favorecido"] : ""; ?>
+                                    <?= isset($resultado["valor"]) ? buscarCategoria($resultado["favorecido_id"])[0]["nome"] : ""; ?>
                                 </dd>
                             </dl>
                             <dl>

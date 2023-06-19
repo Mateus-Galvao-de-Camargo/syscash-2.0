@@ -20,7 +20,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = json_decode($_POST['registro']);
                 validaDados($registro);
 
-                $sql = "insert into conta_receber(descricao, favorecido, valor, data_vencimento, categoria_id, usuario_id) VALUES (?, ?, ?, ?, ?, ?) ";
+                $sql = "insert into conta_receber(descricao, favorecido_id, valor, data_vencimento, categoria_id, usuario_id) VALUES (?, ?, ?, ?, ?, ?) ";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
@@ -53,7 +53,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = json_decode($_POST['registro']);
                 validaDados($registro);
 
-                $sql = "update conta_receber set descricao = ?, favorecido = ?, valor = ?, data_vencimento = ?, categoria_id = ? where id = ? ";
+                $sql = "update conta_receber set descricao = ?, favorecido_id = ?, valor = ?, data_vencimento = ?, categoria_id = ? where id = ? ";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(

@@ -31,7 +31,7 @@ try {
     $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
 
     //Sql para ser consultada
-    $sql = "select * from conta_receber where (id like :palavra or descricao like :palavra or favorecido like :palavra) and usuario_id = :id order by id asc ";
+    $sql = "select * from conta_receber where (id like :palavra or descricao like :palavra) and usuario_id = :id order by id asc ";
 
     // Codificação da paginação
     $pre_pagina = $conexao->prepare($sql);
@@ -154,9 +154,9 @@ try {
                                 <tr id="<?php echo $conta['id'] . "_contareceber"; ?>">
                                     <td><?php echo $conta["id"]; ?></td>
                                     <td><?php echo $conta["descricao"]; ?></td>
-                                    <td><?php echo $conta["favorecido"]; ?></td>
                                     <td><?php echo number_format($conta["valor"], 2, ',', '.'); ?></td>
                                     <td><?php echo date("d/m/Y", strtotime($conta["data_vencimento"])); ?></td>
+                                    <td><?php echo buscarFavorecido($conta["favorecido_id"])[0]["nome"]; ?></td>
                                     <td><?php echo buscarCategoria($conta["categoria_id"])[0]["descricao"]; ?></td>
                                     <td>
                                         <a id="botao_view_contareceber" chave="<?php echo $conta['id']; ?>" class="btn btn-info btn-sm" title="Visualizar"><i class="fas fa-eye"></i></a>
