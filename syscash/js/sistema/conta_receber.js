@@ -25,7 +25,7 @@ $(document).ready(function () {
 			descricao_contareceber: {
 				required: true
 			},
-			favorecido_contareceber: {
+			favorecido_id_contareceber: {
 				required: true
 			},
 			valor_contareceber: {
@@ -57,7 +57,7 @@ $(document).ready(function () {
 			descricao_contareceber: {
 				required: "Este campo não pode ser vazio!"
 			},
-			favorecido_contareceber: {
+			favorecido_id_contareceber: {
 				required: "Este campo não pode ser vazio!"
 			},
 			valor_contareceber: {

@@ -80,7 +80,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                             </div>
                             <div class="col-md-6">
                                 <label for="favorecido" class="form-label">Favorecido</label>
-                                <select name="favorecido" id="favorecido" class="form-select">
+                                <select name="favorecido_id_contareceber" id="favorecido_id_contareceber" class="form-select">
                                     <?php
                                     $favorecidos = listarFavorecido();
                                     foreach ($favorecidos as $favorecido) {

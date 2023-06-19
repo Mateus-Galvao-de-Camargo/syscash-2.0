@@ -21,7 +21,10 @@ CREATE TABLE IF NOT EXISTS `syscash`.`usuario` (
 CREATE TABLE IF NOT EXISTS `syscash`.`favorecido` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`));
+  `usuario_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_favorecido_usuario` (`usuario_id` ASC),
+  CONSTRAINT `fk_favorecido_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `syscash`.`usuario` (`id`));
 
 -- -----------------------------------------------------
 -- Table `syscash`.`categoria`

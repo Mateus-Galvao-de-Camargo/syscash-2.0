@@ -25,7 +25,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
                     $registro->descricao_contareceber,
-                    $registro->favorecido_contareceber,
+                    $registro->favorecido_id_contareceber,
                     $registro->valor_contareceber,
                     $registro->datavencimento_contareceber,
                     $registro->categoria_id_contareceber,
@@ -58,7 +58,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
                     $registro->descricao_contareceber,
-                    $registro->favorecido_contareceber,
+                    $registro->favorecido_id_contareceber,
                     $registro->valor_contareceber,
                     $registro->datavencimento_contareceber,
                     $registro->categoria_id_contareceber,
