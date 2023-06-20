@@ -3,7 +3,7 @@ require_once("valida_acesso.php");
 ?>
 <?php
 require_once("conexao.php");
-require_once("categoria_filtro.php");
+require_once("conta_pagar_filtro.php");
 
 //operações via ajax
 if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
@@ -20,13 +20,16 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = json_decode($_POST['registro']);
                 validaDados($registro);
 
-                $sql = "insert into categoria(descricao, tipo, usuario_id) VALUES (?, ?, ?) ";
+                $sql = "insert into conta_pagar(descricao, favorecido_id, valor, data_vencimento, categoria_id, usuario_id) VALUES (?, ?, ?, ?, ?, ?) ";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
-                    $registro->descricao_categoria,
-                    $registro->tipo_categoria,
-                    $registro->usuario_id_categoria
+                    $registro->descricao_contapagar,
+                    $registro->favorecido_id_contapagar,
+                    $registro->valor_contapagar,
+                    $registro->datavencimento_contapagar,
+                    $registro->categoria_id_contapagar,
+                    $registro->usuario_id_contapagar
                 ));
                 print json_encode($conexao->lastInsertId());
             } catch (Exception $e) {
@@ -50,12 +53,16 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = json_decode($_POST['registro']);
                 validaDados($registro);
 
-                $sql = "update categoria set descricao = ? where id = ? ";
+                $sql = "update conta_pagar set descricao = ?, favorecido_id = ?, valor = ?, data_vencimento = ?, categoria_id = ? where id = ? ";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
-                    $registro->descricao_categoria,
-                    $registro->id_categoria
+                    $registro->descricao_contapagar,
+                    $registro->favorecido_id_contapagar,
+                    $registro->valor_contapagar,
+                    $registro->datavencimento_contapagar,
+                    $registro->categoria_id_contapagar,
+                    $registro->id_contapagar
                 ));
                 print json_encode(1);
             } catch (Exception $e) {
@@ -74,7 +81,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = new stdClass();
                 $registro = json_decode($_POST["registro"]);
 
-                $sql = "delete from categoria where id = ? ";
+                $sql = "delete from conta_pagar where id = ? ";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
@@ -93,7 +100,7 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $registro = new stdClass();
                 $registro = json_decode($_POST["registro"]);
 
-                $sql = "select * from categoria where id = ?";
+                $sql = "select * from conta_pagar where id = ?";
                 $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
                 $pre = $conexao->prepare($sql);
                 $pre->execute(array(
@@ -107,6 +114,72 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
                 $conexao = null;
             }
             break;
+        case 'grafico':
+            try {
+                $ano = filter_var($_POST["ano"], FILTER_VALIDATE_INT);
+                $usuario_id = filter_var($_POST["usuario"], FILTER_VALIDATE_INT);
+                $pagar = null;
+                $pagar_aux = [];
+                $linhas = [];
+                $retorno = [];
+
+                $meses = [
+                    1 => 'Janeiro',
+                    2 => 'Fevereiro',
+                    3 => 'Março',
+                    4 => 'Abril',
+                    5 => 'Maio',
+                    6 => 'Junho',
+                    7 => 'Julho',
+                    8 => 'Agosto',
+                    9 => 'Setembro',
+                    10 => 'Outubro',
+                    11 => 'Novembro',
+                    12 => 'Dezembro'
+                ];
+
+                $sql = "select extract(month from data_vencimento) as mes, sum(valor) as valor " . "from conta_pagar where usuario_id = ? " .
+                    "and extract(year from data_vencimento) = ? " .
+                    "group by mes order by mes";
+
+                $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
+                $pre = $conexao->prepare($sql);
+                $pre->execute(array(
+                    $usuario_id,
+                    $ano
+                ));
+
+                $pagar = $pre->fetchAll(PDO::FETCH_ASSOC);
+
+                // aqui extraindo os dados de recebimentos da consulta
+                for ($i = 0; $i < count($pagar); $i++) {
+                    $linha = $pagar[$i];
+
+                    if (array_key_exists($linha["mes"], $meses)) {
+                        $linhas[$meses[$linha["mes"]]] = $linha["valor"];
+                    }
+                }
+
+                // só preenchendo o vetor com os dados restantes se não vier 12 meses na consulta
+                if (count($linhas) < 12) {
+                    for ($i = 1; $i < 13; $i++) {
+                        if (array_key_exists($meses[$i], $linhas)) {
+                            $pagar_aux[$meses[$i]] = $linhas[$meses[$i]];
+                        } else {
+                            $pagar_aux[$meses[$i]] = 0;
+                        }
+                    }
+                }
+
+
+                $retorno[] = $pagar_aux;
+                print json_encode($retorno);
+            } catch (Exception $e) {
+                echo "Erro: " . $e->getMessage() . "<br>";
+            } finally {
+                $conexao = null;
+            }
+            break;
         default:
             print json_encode(0);
             return;
@@ -114,10 +187,10 @@ if (filter_input(INPUT_SERVER, "REQUEST_METHOD") === "POST") {
 }
 
 //consulta sem ajax
-function buscarCategoria(int $id)
+function buscarContaPagar(int $id)
 {
     try {
-        $sql = "select * from categoria where id = ?";
+        $sql = "select * from conta_pagar where id = ?";
         $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
         $pre = $conexao->prepare($sql);
         $pre->execute(array(
@@ -133,61 +206,12 @@ function buscarCategoria(int $id)
 }
 
 //consulta sem ajax
-function listarCategoria()
+function listarContaPagar()
 {
     try {
-        $usuario_id = isset($_SESSION["usuario_id"]) ? $_SESSION["usuario_id"] : 0;
-
-        $sql = "select * from categoria where usuario_id = ? order by descricao";
+        $sql = "select * from conta_pagar order by descricao";
         $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
         $pre = $conexao->prepare($sql);
-        $pre->execute(array(
-            $usuario_id
-        ));
-        $pre->execute();
-
-        return $pre->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        echo "Erro: " . $e->getMessage() . "<br>";
-    } finally {
-        $conexao = null;
-    }
-}
-
-//consulta sem ajax
-function listarCategoriaEntrada()
-{
-    try {
-        $usuario_id = isset($_SESSION["usuario_id"]) ? $_SESSION["usuario_id"] : 0;
-
-        $sql = "select * from categoria where usuario_id = ? and tipo = 1 order by descricao";
-        $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
-        $pre = $conexao->prepare($sql);
-        $pre->execute(array(
-            $usuario_id
-        ));
-        $pre->execute();
-
-        return $pre->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        echo "Erro: " . $e->getMessage() . "<br>";
-    } finally {
-        $conexao = null;
-    }
-}
-
-//consulta sem ajax
-function listarCategoriaSaida()
-{
-    try {
-        $usuario_id = isset($_SESSION["usuario_id"]) ? $_SESSION["usuario_id"] : 0;
-
-        $sql = "select * from categoria where usuario_id = ? and tipo = 2 order by descricao";
-        $conexao = new PDO("mysql:host=" . SERVIDOR . ";dbname=" . BANCO, USUARIO, SENHA);
-        $pre = $conexao->prepare($sql);
-        $pre->execute(array(
-            $usuario_id
-        ));
         $pre->execute();
 
         return $pre->fetchAll(PDO::FETCH_ASSOC);

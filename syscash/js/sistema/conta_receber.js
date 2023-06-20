@@ -161,7 +161,7 @@ $(document).ready(function () {
 					pagina_contareceber: $("#pagina_contareceber").val(),
 					texto_busca_contareceber: $("#texto_busca_contareceber").val()
 				}, function () {
-					$("#div_mensagem_texto_contareceber").empty().append("Contas a receber cadastrada!");
+					$("#div_mensagem_texto_contareceber").empty().append("Conta(s) a receber atualizada(s)!");
 					$("#div_mensagem_contareceber").show();
 				});
 			},

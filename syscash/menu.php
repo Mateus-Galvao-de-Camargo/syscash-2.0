@@ -46,6 +46,10 @@ require_once("valida_acesso.php");
           <a href="#" class="nav_link" title="Favorecido" id="favorecido_link">
             <i class="fas fa-user-cog nav_icon"></i> <span class="nav_name">Favorecidos</span>
           </a>
+          <a class="nav_link" title="Contas a Pagar" id="contapagar_link">
+            <i class="fas fa-question-circle nav_icon"></i>
+            <span class="nav_name">Contas a Pagar</span>
+          </a>
           <a class="nav_link" title="Usuário" id="usuario_link">
             <i class="fas fa-user-cog nav_icon"></i>
             <span class="nav_name">Usuário</span>
@@ -138,6 +142,7 @@ require_once("valida_acesso.php");
               document.write(new Date().getFullYear())
             </script>
           </p>
+          <p>E também desenvolvido em 2023 como atividade avaliativa para matéria de Desenvolvimento Web II no Curso Técnico de Desenvolvimento de Sistemas do IFSC, Jaraguá do Sul - Câmpus Rau, pelos estudantes Gabriel Lopes e Mateus Galvão de Camargo. (nenhum direito de atribuição à ambos estudantes)</p>
           <p>Licença Creative Commons - Com direito de atribuição e não comercial</p>
         </div>
         <div class="modal-footer">
