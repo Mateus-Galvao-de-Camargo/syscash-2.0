@@ -78,7 +78,7 @@ try {
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-4 d-flex justify-content-start">
-                    <h4>Lista de Usuários</h4>
+                    <h4>Perfil do Usuário</h4>
                 </div>
                 <div class="col-md-4 d-flex justify-content-center">
                 </div>
@@ -128,7 +128,7 @@ try {
             ?>
                 <div class="alert alert-info alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
-                    Nenhum usuário encontrado!
+                    Usuário não encontrado!
                 </div>
             <?php
             } else {
@@ -152,7 +152,6 @@ try {
                                     <td>
                                         <a id="botao_view_usuario" chave="<?php echo $usuario['id']; ?>" class="btn btn-info btn-sm" title="Visualizar"><i class="fas fa-eye"></i></a>
                                         <a id="botao_editar_usuario" chave="<?php echo $usuario['id']; ?>" class="btn btn-success btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
-                                        <a id="botao_excluir_usuario" chave="<?php echo $usuario['id']; ?>" class="btn btn-danger btn-sm" title="Excluir"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             <?php

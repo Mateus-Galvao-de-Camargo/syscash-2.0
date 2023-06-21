@@ -349,7 +349,7 @@ $(document).ready(function () {
 				$("tr#" + registro.id + "_categoria").remove();
 			},
 			error: function (e) {
-				$("#div_mensagem_texto_categoria").empty().append(e.responseText);
+				$("#div_mensagem_texto_categoria").empty().append("Existem contas usando essa categoria, por favor, primeiro desvincule esta categoria das contas para então apagar-la");
 				$("#div_mensagem_categoria").show();
 			},
 			complete: function () {

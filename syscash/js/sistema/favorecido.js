@@ -343,7 +343,7 @@ $(document).ready(function () {
 				$("tr#" + registro.id + "_favorecido").remove();
 			},
 			error: function (e) {
-				$("#div_mensagem_texto_favorecido").empty().append(e.responseText);
+				$("#div_mensagem_texto_favorecido").empty().append("Existem contas usando esse favorecido, por favor, primeiro desvincule este favorecido das contas para então apagar-lo");
 				$("#div_mensagem_favorecido").show();
 			},
 			complete: function () {
