@@ -39,16 +39,17 @@ require_once("valida_acesso.php");
           <a href="#" class="nav_link" title="Categoria" id="categoria_link">
             <i class="fas fa-tag nav_icon"></i> <span class="nav_name">Categoria</span>
           </a>
-          <a href="#" class="nav_link" title="Contas a Receber" id="contareceber_link">
-            <i class="fas fa-calendar-plus nav_icon"></i>
-            <span class="nav_name">Contas a Receber</span>
-          </a>
           <a href="#" class="nav_link" title="Favorecido" id="favorecido_link">
-            <i class="fas fa-user-cog nav_icon"></i> <span class="nav_name">Favorecidos</span>
+          <i class="fas fa-address-book"></i>
+            <span class="nav_name">Favorecidos</span>
+          </a>
+          <a href="#" class="nav_link" title="Contas a Receber" id="contareceber_link">
+          <i class="fas fa-hand-holding-usd" style="color: #00ff00;"></i>
+            <span class="nav_name" style="color: #00ff00;">Contas a Receber</span>
           </a>
           <a class="nav_link" title="Contas a Pagar" id="contapagar_link">
-            <i class="fas fa-question-circle nav_icon"></i>
-            <span class="nav_name">Contas a Pagar</span>
+          <i class="fas fa-hand-holding-usd" style="color: #ff0000;"></i>
+            <span class="nav_name" style="color: #ff0000;">Contas a Pagar</span>
           </a>
           <a class="nav_link" title="Usuário" id="usuario_link">
             <i class="fas fa-user-cog nav_icon"></i>
@@ -99,9 +100,9 @@ require_once("valida_acesso.php");
                 <?php
                 for ($i = 0; $i < 10; $i++) {
                   if ($i == 0) {
-                    echo "<option value='2021'>2021</option>";
+                    echo "<option value='2023'>2023</option>";
                   } else {
-                    $conta = 2021 + $i;
+                    $conta = 2023 + $i;
                     echo "<option value='$conta'>$conta</option>";
                   }
                 }

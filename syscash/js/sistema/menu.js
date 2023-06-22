@@ -17,6 +17,7 @@ $(document).ready(function () {
             type: "POST",
             cache: false,
             url: "conta_receber_crud.php",
+            url: "conta_pagar_crud.php",
             data: {
                 acao: "grafico",
                 ano: ano,
@@ -27,8 +28,8 @@ $(document).ready(function () {
                 var receber = [];
                 var receber_meses = [];
                 var receber_valores = [];
-                var receber_meses = [];
-                var receber_valores = [];
+                var receber_meses_p = [];
+                var receber_valores_p = [];
 
                 $.each(data, function (i, item) {
                     if (i == 0) {
@@ -53,6 +54,7 @@ $(document).ready(function () {
                         data: receber_valores
                     }]
                 };
+
                 var grafico_canva = $("#grafico");
 
                 var graficoBarra = new Chart(
