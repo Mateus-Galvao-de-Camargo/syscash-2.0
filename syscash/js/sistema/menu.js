@@ -172,7 +172,7 @@ $(document).ready(function () {
                 backgroundColor: '#ff3300',
                 borderColor: '#e62e00',
                 hoverBackgroundColor: '#ffe6e6',
-                hoverBorderColor: '#ffcccc',
+                hoverBorderColor: '#ffcccc',    
                 borderWidth: 1,
                 data: pagar_valores
             }]

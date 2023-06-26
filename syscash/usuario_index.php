@@ -93,18 +93,6 @@ try {
                 </div>
             </div>
             <hr>
-            <div class="row">
-                <div class="col-md-4 d-flex justify-content-start">
-                    <a href="#" class="btn btn-primary btn-sm" title="Adicionar" id="botao_adicionar_usuario"><i class="fas fa-plus-square"></i>&nbsp;Adicionar</a>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                </div>
-                <div class="col-md-4 d-flex justify-content-end">
-                    <input type="text" name="texto_busca" value="<?php echo $texto_busca; ?>" id="texto_busca_usuario" maxlength="25">
-                    <a id="botao_pesquisar_usuario" class="btn btn-primary btn-sm" title="Pesquisar"><i class="fas fa-search"></i>&nbsp;Pesquisar</a>
-                </div>
-            </div>
-            <hr>
         </div>
         <div class="col-md-12">
             <?php
