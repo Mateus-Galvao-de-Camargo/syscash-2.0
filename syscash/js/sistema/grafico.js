@@ -39,27 +39,28 @@
 	            var dados = {
 	                labels: entrada_meses,
 	                datasets: [{
-	                        label: 'Entrada',
-	                        backgroundColor: '#4080bf',
-	                        borderColor: '#3973ac',
-	                        hoverBackgroundColor: '#ccccff',
-	                        hoverBorderColor: '#b3b3ff',
-	                        borderWidth: 1,
-	                        data: entrada_valores
-	                    },
-	                    {
-	                        label: 'Saída',
-	                        backgroundColor: '#ff3300',
-	                        borderColor: '#e62e00',
-	                        hoverBackgroundColor: '#ffe6e6',
-	                        hoverBorderColor: '#ffcccc',
-	                        borderWidth: 1,
-	                        data: saida_valores
-	                    }
-	                ]
+	                    label: 'Entrada',
+	                    backgroundColor: '#4080bf',
+	                    borderColor: '#3973ac',
+	                    hoverBackgroundColor: '#ccccff',
+	                    hoverBorderColor: '#b3b3ff',
+	                    borderWidth: 1,
+	                    data: entrada_valores
+	                }],
 
-	            };
+					labels: saida_meses,
+	                datasets: [{
+						label: 'Saída',
+						backgroundColor: '#ff3300',
+						borderColor: '#e62e00',
+						hoverBackgroundColor: '#ffe6e6',
+						hoverBorderColor: '#ffcccc',
+						borderWidth: 1,
+						data: saida_valores
+					}],
+				};
 
+	                    
 	            var grafico_canva = $("#canva_grafico");
 
 	            var graficoBarra = new Chart(

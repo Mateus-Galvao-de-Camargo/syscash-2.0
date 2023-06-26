@@ -17,7 +17,6 @@ $(document).ready(function () {
             type: "POST",
             cache: false,
             url: "conta_receber_crud.php",
-            url: "conta_pagar_crud.php",
             data: {
                 acao: "grafico",
                 ano: ano,
@@ -28,12 +27,15 @@ $(document).ready(function () {
                 var receber = [];
                 var receber_meses = [];
                 var receber_valores = [];
-                var receber_meses_p = [];
-                var receber_valores_p = [];
+                var pagar = [];
+                var pagar_meses = [];
+                var pagar_valores = [];
 
                 $.each(data, function (i, item) {
                     if (i == 0) {
                         receber = item;
+                    } else {
+                        pagar = item;
                     }
                 });
 
@@ -42,8 +44,44 @@ $(document).ready(function () {
                     receber_valores.push(item);
                 });
 
+                $.each(pagar, function (i, item) {
+                    pagar_meses.push(i);
+                    pagar_valores.push(item);
+                });
+
+                function boraPagar() {
+                    $.ajax({
+                        type: "POST",
+                        cache: false,
+                        url: "conta_pagar_crud.php",
+                        data: {
+                            acao: "grafico",
+                            ano: ano,
+                            usuario: id_usuario
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                pagar = item;
+                            });
+        
+                            $.each(pagar, function (i, item) {
+                                pagar_meses.push(i);
+                                pagar_valores.push(item);
+                            });
+        
+                            // Call the chart rendering function after populating both datasets
+                            renderChart();
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error
+                            console.log(error);
+                        }
+                    });
+                }
+
                 var dados = {
-                    labels: receber_meses,
+                    labels: receber_meses.concat(pagar_meses),
                     datasets: [{
                         label: "Contas a Receber",
                         backgroundColor: "#4080bf",
@@ -52,54 +90,66 @@ $(document).ready(function () {
                         hoverBorderColor: "#b3b3ff",
                         borderWidth: 1,
                         data: receber_valores
+                    },
+                    {
+                        label: "Contas a Pagar",
+                        backgroundColor: '#ff3300',
+                        borderColor: '#e62e00',
+                        hoverBackgroundColor: '#ffe6e6',
+                        hoverBorderColor: '#ffcccc',
+                        borderWidth: 1,
+                        data: pagar_valores
                     }]
                 };
 
-                var grafico_canva = $("#grafico");
-
-                var graficoBarra = new Chart(
-                    grafico_canva, {
-                        type: "bar",
-                        data: dados,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: "top",
-                                },
-                                title: {
-                                    display: true,
-                                    text: "Contas a Receber - " + ano
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    display: true,
+                function renderChart() {
+                    var grafico_canva = $("#grafico");
+        
+                    var graficoBarra = new Chart(
+                        grafico_canva, {
+                            type: "bar",
+                            data: dados,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: "top",
+                                    },
                                     title: {
                                         display: true,
-                                        text: "Valores R$",
-                                        color: "#000000",
-                                        font: {
-                                            weight: "bold",
-                                        }
+                                        text: "Contas a Pagar e Receber - " + ano
                                     }
                                 },
-                                x: {
-                                    display: true,
-                                    title: {
+                                scales: {
+                                    y: {
                                         display: true,
-                                        text: "Meses do ano",
-                                        color: "#000000",
-                                        font: {
-                                            weight: "bold",
+                                        title: {
+                                            display: true,
+                                            text: "Valores R$",
+                                            color: "#000000",
+                                            font: {
+                                                weight: "bold",
+                                            }
+                                        }
+                                    },
+                                    x: {
+                                        display: true,
+                                        title: {
+                                            display: true,
+                                            text: "Meses do ano",
+                                            color: "#000000",
+                                            font: {
+                                                weight: "bold",
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                );
+                    );
+                }
+                boraPagar();
             },
             error: function (e) {
                 $("#div_mensagem_texto_menu").empty().append(e.responseText);
