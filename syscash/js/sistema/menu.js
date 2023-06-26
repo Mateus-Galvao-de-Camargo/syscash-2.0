@@ -35,8 +35,10 @@ $(document).ready(function () {
                 });
 
                 $.each(receber, function (i, item) {
-                    receber_meses.push(i);
-                    receber_valores.push(item);
+                    if (!receber_meses.includes(i)) {
+                        receber_meses.push(i);
+                        receber_valores.push(item);
+                    }
                 });
 
                 $.ajax({
@@ -59,11 +61,13 @@ $(document).ready(function () {
                         });
                 
                         $.each(pagar, function (i, item) {
-                            pagar_meses.push(i);
-                            pagar_valores.push(item);
+                            if (!pagar_meses.includes(i)) {
+                                pagar_meses.push(i);
+                                pagar_valores.push(item);
+                            }
                         });
                 
-                        renderChart(receber_meses, receber_valores, pagar_meses, pagar_valores);
+                        renderChart(receber_meses, receber_valores, pagar_meses, pagar_valores, ano);
                     }
                 });
             },
@@ -151,9 +155,9 @@ $(document).ready(function () {
     }
     linkColor.forEach(l => l.addEventListener('click', colorLink));
 
-    function renderChart(receber_meses, receber_valores, pagar_meses, pagar_valores) {
+    function renderChart(receber_meses, receber_valores, pagar_meses, pagar_valores, ano) {
         var dados = {
-            labels: receber_meses.concat(pagar_meses),
+            labels: receber_meses.concat(pagar_meses.filter(mes => !receber_meses.includes(mes))),
             datasets: [{
                 label: "Contas a Receber",
                 backgroundColor: "#4080bf",
