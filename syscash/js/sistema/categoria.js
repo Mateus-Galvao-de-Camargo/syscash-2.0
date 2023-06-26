@@ -79,14 +79,6 @@ $(document).ready(function () {
 		});
 	});
 
-	//botão limpar do cadastro de informações
-	$("#botao_limpar_categoria").click(function () {
-		$("#nome").focus();
-		$("#categoria_dados").each(function () {
-			$(this).find(":input").removeClass("is-invalid");
-			$(this).find(":input").removeAttr("value");
-		});
-	});
 
 	//botão salvar do cadastro de informações
 	$("#botao_salvar_categoria").click(function (e) {
